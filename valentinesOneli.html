@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can I be your Valentine? 💕</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffd6e8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating Hearts Decorations */
+        .floating-heart {
+            position: fixed;
+            font-size: 20px;
+            color: rgba(255, 105, 180, 0.6);
+            pointer-events: none;
+            z-index: 0;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .floating-heart:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; font-size: 24px; }
+        .floating-heart:nth-child(2) { left: 80%; top: 10%; animation-delay: 2s; font-size: 18px; }
+        .floating-heart:nth-child(3) { left: 15%; top: 70%; animation-delay: 4s; font-size: 22px; }
+        .floating-heart:nth-child(4) { left: 85%; top: 60%; animation-delay: 1s; font-size: 20px; }
+        .floating-heart:nth-child(5) { left: 5%; top: 50%; animation-delay: 3s; font-size: 26px; }
+        .floating-heart:nth-child(6) { left: 90%; top: 80%; animation-delay: 5s; font-size: 16px; }
+        .floating-heart:nth-child(7) { left: 20%; top: 5%; animation-delay: 1.5s; font-size: 19px; }
+        .floating-heart:nth-child(8) { left: 75%; top: 30%; animation-delay: 3.5s; font-size: 23px; }
+        .floating-heart:nth-child(9) { left: 8%; top: 85%; animation-delay: 2.5s; font-size: 21px; }
+        .floating-heart:nth-child(10) { left: 92%; top: 45%; animation-delay: 4.5s; font-size: 17px; }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.6;
+            }
+            25% {
+                transform: translateY(-30px) rotate(5deg) scale(1.1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-60px) rotate(-5deg) scale(0.9);
+                opacity: 0.7;
+            }
+            75% {
+                transform: translateY(-30px) rotate(3deg) scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        /* Sparkle Decorations */
+        .sparkle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 192, 203, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: sparkle 3s infinite;
+            box-shadow: 0 0 6px rgba(255, 105, 180, 0.8);
+        }
+
+        .sparkle:nth-child(11) { left: 25%; top: 15%; animation-delay: 0s; }
+        .sparkle:nth-child(12) { left: 70%; top: 25%; animation-delay: 0.5s; }
+        .sparkle:nth-child(13) { left: 30%; top: 75%; animation-delay: 1s; }
+        .sparkle:nth-child(14) { left: 60%; top: 85%; animation-delay: 1.5s; }
+        .sparkle:nth-child(15) { left: 12%; top: 40%; animation-delay: 2s; }
+        .sparkle:nth-child(16) { left: 88%; top: 55%; animation-delay: 2.5s; }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        /* Ensure card is above decorations */
+        .container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.2);
+            text-align: center;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .card.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+        }
+
+        .image-container img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ff69b4;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+        }
+
+        .question {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        .buttons-container {
+            margin-bottom: 20px;
+            min-height: 60px;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 15px 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+        }
+
+        .btn-yes:active {
+            transform: scale(0.98);
+        }
+
+        .btn-no {
+            background: #e0e0e0;
+            color: #666;
+            position: absolute;
+            z-index: 2;
+            padding: 12px 30px;
+            font-size: 18px;
+            left: auto;
+            right: 0;
+            top: 0;
+        }
+
+        .btn-no:hover {
+            background: #d0d0d0;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #888;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .success-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffd6e8 100%);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease;
+            overflow: hidden;
+        }
+
+        .success-screen .floating-heart,
+        .success-screen .sparkle {
+            z-index: 1001;
+        }
+
+        .success-screen .success-content {
+            position: relative;
+            z-index: 1002;
+        }
+
+        .success-screen.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .success-content {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-text {
+            font-size: 48px;
+            font-weight: 700;
+            color: #ff1493;
+            margin-bottom: 30px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .success-gif {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .question {
+                font-size: 24px;
+            }
+
+            .btn {
+                font-size: 18px;
+                padding: 12px 30px;
+            }
+
+            .btn-no {
+                font-size: 16px;
+                padding: 10px 25px;
+            }
+
+            .success-text {
+                font-size: 36px;
+            }
+
+            .card {
+                padding: 30px 20px;
+            }
+
+            .floating-heart {
+                font-size: 16px;
+            }
+
+            .sparkle {
+                width: 3px;
+                height: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts Decorations -->
+    <div class="floating-heart">❤️</div>
+    <div class="floating-heart">💕</div>
+    <div class="floating-heart">💖</div>
+    <div class="floating-heart">💗</div>
+    <div class="floating-heart">💝</div>
+    <div class="floating-heart">💞</div>
+    <div class="floating-heart">💓</div>
+    <div class="floating-heart">💘</div>
+    <div class="floating-heart">💕</div>
+    <div class="floating-heart">❤️</div>
+    
+    <!-- Sparkle Decorations -->
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    
+    <div class="container">
+        <div class="card" id="proposalCard">
+            <div class="image-container">
+                <img src="data:image/jpeg;base64,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" id="valentineImage">
+            </div>
+            <h1 class="question">Oneli can I be your valentine?</h1>
+            <div class="buttons-container">
+                <button class="btn btn-yes" id="yesBtn">Yes</button>
+                <button class="btn btn-no" id="noBtn">No</button>
+            </div>
+            <p class="footer-text">"No" seems a bit shy 😈</p>
+        </div>
+    </div>
+
+    <div class="success-screen" id="successScreen">
+        <!-- Success Screen Decorations -->
+        <div class="floating-heart">❤️</div>
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">💖</div>
+        <div class="floating-heart">💗</div>
+        <div class="floating-heart">💝</div>
+        <div class="floating-heart">💞</div>
+        <div class="floating-heart">💓</div>
+        <div class="floating-heart">💘</div>
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">❤️</div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        
+        <div class="success-content">
+            <h1 class="success-text">YAY🎉🎉🎉 I LOVE YOU ❤️</h1>
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3R6eWwxY3Z4MngwMnR6eWwxY3Z4MngwMnR6eWwxY3Z4MngwMmN0ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26BRv0ThflsHCqDrG/giphy.gif" 
+                 alt="Valentine's Celebration" 
+                 class="success-gif"
+                 onerror="this.src='https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif'">
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const proposalCard = document.getElementById('proposalCard');
+        const successScreen = document.getElementById('successScreen');
+        const buttonsContainer = document.getElementById('noBtn').parentElement;
+
+        // Set initial position of "No" button next to "Yes" button
+        function setInitialNoButtonPosition() {
+            try {
+                const buttonsContainerRect = buttonsContainer.getBoundingClientRect();
+                const yesBtnRect = yesBtn.getBoundingClientRect();
+                
+                if (yesBtnRect.width > 0 && yesBtnRect.height > 0) {
+                    // Position "No" button to the right of "Yes" button, slightly overlapping
+                    // Position relative to buttons-container
+                    const relativeX = yesBtnRect.right - buttonsContainerRect.left + 10;
+                    const relativeY = yesBtnRect.top - buttonsContainerRect.top;
+                    
+                    noBtn.style.left = relativeX + 'px';
+                    noBtn.style.top = relativeY + 'px';
+                    noBtn.style.right = 'auto';
+                    noBtn.style.transform = 'none';
+                } else {
+                    // Fallback: position to the right
+                    noBtn.style.left = 'auto';
+                    noBtn.style.right = '0';
+                    noBtn.style.top = '0';
+                    noBtn.style.transform = 'none';
+                }
+            } catch (e) {
+                // Ultimate fallback - use CSS defaults
+                noBtn.style.left = 'auto';
+                noBtn.style.right = '0';
+                noBtn.style.top = '0';
+                noBtn.style.transform = 'none';
+            }
+        }
+
+        // Set initial position immediately and on load/resize
+        function initButtonPosition() {
+            // Use multiple attempts to ensure positioning works
+            requestAnimationFrame(() => {
+                setInitialNoButtonPosition();
+                setTimeout(() => {
+                    setInitialNoButtonPosition();
+                }, 100);
+            });
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initButtonPosition);
+        } else {
+            initButtonPosition();
+        }
+        window.addEventListener('load', initButtonPosition);
+        window.addEventListener('resize', initButtonPosition);
+
+        // Get card dimensions for boundary checking
+        function getCardBounds() {
+            const cardRect = proposalCard.getBoundingClientRect();
+            const cardStyle = window.getComputedStyle(proposalCard);
+            const paddingLeft = parseInt(cardStyle.paddingLeft);
+            const paddingRight = parseInt(cardStyle.paddingRight);
+            const paddingTop = parseInt(cardStyle.paddingTop);
+            const paddingBottom = parseInt(cardStyle.paddingBottom);
+            
+            return {
+                width: cardRect.width - paddingLeft - paddingRight,
+                height: cardRect.height - paddingTop - paddingBottom,
+                paddingLeft: paddingLeft,
+                paddingTop: paddingTop
+            };
+        }
+
+        // Move "No" button to random position when hovered
+        function moveNoButton() {
+            const bounds = getCardBounds();
+            const buttonRect = noBtn.getBoundingClientRect();
+            const buttonWidth = buttonRect.width;
+            const buttonHeight = buttonRect.height;
+            
+            // Get buttons-container position relative to card
+            const cardRect = proposalCard.getBoundingClientRect();
+            const buttonsContainerRect = buttonsContainer.getBoundingClientRect();
+            const containerOffsetX = buttonsContainerRect.left - cardRect.left;
+            const containerOffsetY = buttonsContainerRect.top - cardRect.top;
+            
+            // Calculate available space within card (accounting for button size and padding)
+            const maxX = bounds.width - buttonWidth;
+            const maxY = bounds.height - buttonHeight;
+            
+            // Generate random position within card bounds
+            const randomX = Math.max(0, Math.random() * maxX);
+            const randomY = Math.max(0, Math.random() * maxY);
+            
+            // Set new position relative to buttons-container (accounting for card padding and container offset)
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = (bounds.paddingLeft + randomX - containerOffsetX) + 'px';
+            noBtn.style.top = (bounds.paddingTop + randomY - containerOffsetY) + 'px';
+            noBtn.style.right = 'auto';
+            noBtn.style.transform = 'none';
+        }
+
+        // Track mouse position and move button when getting close
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            const buttonRect = noBtn.getBoundingClientRect();
+            const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+            const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+            
+            // Calculate distance from mouse to button center
+            const distance = Math.sqrt(
+                Math.pow(mouseX - buttonCenterX, 2) + 
+                Math.pow(mouseY - buttonCenterY, 2)
+            );
+            
+            // If mouse is within 100px of button, move it
+            if (distance < 100) {
+                moveNoButton();
+            }
+        });
+
+        // Also move on direct hover (backup)
+        noBtn.addEventListener('mouseenter', () => {
+            moveNoButton();
+        });
+
+        // Also move on touch (for mobile)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Success state when "Yes" is clicked
+        yesBtn.addEventListener('click', () => {
+            proposalCard.classList.add('hidden');
+            setTimeout(() => {
+                successScreen.classList.add('show');
+            }, 300);
+        });
+
+        // Prevent "No" button from being clicked easily
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+    </script>
+</body>
+</html>
